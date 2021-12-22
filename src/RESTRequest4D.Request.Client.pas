@@ -56,6 +56,7 @@ type
     function AddBody(const AContent: TObject; const AOwns: Boolean = True): IRequest; overload;
     function AddBody(const AContent: TStream; const AOwns: Boolean = True): IRequest; overload;
     function FallbackCharsetEncoding(const AFallbackCharsetEncoding: string): IRequest;
+    function HandleRedirects (const ARedirect : Boolean) : IRequest;
     function AddUrlSegment(const AName, AValue: string): IRequest;
     function SynchronizedEvents(const AValue: Boolean): IRequest;
     function ClearHeaders: IRequest;
@@ -342,6 +343,12 @@ begin
   DoBeforeExecute(FRESTRequest);
   FRESTRequest.Method := TRESTRequestMethod.rmGET;
   ExecuteRequest;
+end;
+
+function TRequestClient.HandleRedirects(const ARedirect: Boolean): IRequest;
+begin
+  Result := Self;
+  FRESTRequest.HandleRedirects := ARedirect;
 end;
 
 function TRequestClient.Accept: string;
